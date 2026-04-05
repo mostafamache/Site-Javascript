@@ -169,76 +169,65 @@
  
 // Résolution de systèmes linéaires par la méthode de Gauss
 
-  function lireMatrice(texte) {
-    return texte.trim().split("\n").map(ligne =>
-      ligne.trim().split(/\s+/).map(Number)
-    );
-  }
 
-  function resoudreSysteme(A, B) {
-    const n = A.length;
-    let M = A.map((ligne, i) => [...ligne, B[i]]);
+function creerTableau() {
+    let n = Number(document.getElementById("n").value);
+    let html = "<h3>Coefficients</h3><table>";
 
     for (let i = 0; i < n; i++) {
-      let pivot = M[i][i];
-
-      if (pivot === 0) {
-        for (let k = i + 1; k < n; k++) {
-          if (M[k][i] !== 0) {
-            [M[i], M[k]] = [M[k], M[i]];
-            pivot = M[i][i];
-            break;
-          }
+        html += "<tr>";
+        for (let j = 0; j < n; j++) {
+            html += `<td><input id="a${i}${j}" type="number"></td>`;
         }
-      }
-
-      if (pivot === 0) {
-        return null; // pas de solution unique
-      }
-
-      for (let j = i; j <= n; j++) {
-        M[i][j] /= pivot;
-      }
-
-      for (let k = 0; k < n; k++) {
-        if (k !== i) {
-          let facteur = M[k][i];
-          for (let j = i; j <= n; j++) {
-            M[k][j] -= facteur * M[i][j];
-          }
-        }
-      }
+        html += `<td>= <input id="b${i}" type="number"></td>`;
+        html += "</tr>";
     }
 
-    return M.map(ligne => ligne[n]);
-  }
+    html += "</table>";
+    document.getElementById("systeme").innerHTML = html;
+}
 
-  function resoudre() {
-    const output = document.getElementById("resultat");
-    try {
-      const A = lireMatrice(document.getElementById("matA").value);
-      const B = lireMatrice(document.getElementById("vectB").value);
+function resoudreSEL() {
+    let n = Number(document.getElementById("n").value);
+    let A = [];
+    let B = [];
 
-      if (A.length !== B.length)
-        throw "Le nombre d’équations doit correspondre aux constantes.";
-
-      const solution = resoudreSysteme(A, B);
-
-      if (!solution)
-        throw "Le système n’admet pas de solution unique.";
-
-      let texte = solution
-        .map((val, i) => `x${i + 1} = ${val.toFixed(3)}`)
-        .join("\n");
-
-      output.className = "";
-      output.textContent = texte;
-
-    } catch (err) {
-      output.className = "error";
-      output.textContent = "Erreur : " + err;
+    for (let i = 0; i < n; i++) {
+        A[i] = [];
+        for (let j = 0; j < n; j++) {
+            A[i][j] = Number(document.getElementById(`a${i}${j}`).value);
+        }
+        B[i] = Number(document.getElementById(`b${i}`).value);
     }
-  }
+
+    // Méthode de Gauss
+    for (let i = 0; i < n; i++) {
+        for (let j = i + 1; j < n; j++) {
+            let facteur = A[j][i] / A[i][i];
+            for (let k = 0; k < n; k++) {
+                A[j][k] -= facteur * A[i][k];
+            }
+            B[j] -= facteur * B[i];
+        }
+    }
+
+    // Remontée
+    let X = new Array(n);
+    for (let i = n - 1; i >= 0; i--) {
+        X[i] = B[i];
+        for (let j = i + 1; j < n; j++) {
+            X[i] -= A[i][j] * X[j];
+        }
+        X[i] /= A[i][i];
+    }
+
+    let resultat = "<h3>Solution</h3>";
+    for (let i = 0; i < n; i++) {
+        resultat += `x${i+1} = ${X[i].toFixed(3)}<br>`;
+    }
+
+    document.getElementById("resultat").innerHTML = resultat;
+}
 
 //Méthode su simplexe pour l'optimisation linéaire
 function lireVecteur(txt) {

@@ -6,28 +6,18 @@
   <link rel="stylesheet" href="/css/styles.css">
   <script src='/js/script.js'></script>
 </head>
+
 <body>
+<h2>Résolution d’un système d’équations linéaires</h2>
 
-<h1>Résolution d’un système d’équations linéaires</h1>
+<label>Nombre de variables : </label>
+<input type="number" id="n" value="2" min="1">
 
-<p>
-Entrez la matrice des coefficients <strong>A</strong> et le vecteur des constantes <strong>B</strong>.<br>
-Les valeurs sont séparées par des espaces.
-</p>
+<button onclick="creerTableau()">Créer le système</button>
+<div id="systeme"></div>
 
-<h3>Matrice A (coefficients)</h3>
-<textarea id="matA">1 1
-2 -1</textarea>
+<button onclick="resoudreSEL()">Résoudre</button>
+<div id="resultat"></div>
 
-<h3>Vecteur B (constantes)</h3>
-<textarea id="vectB">5
-1</textarea>
-
-<br>
-<button onclick="resoudre()">Résoudre le système</button>
-
-<h3>Solution</h3>
-
-<pre id="resultat"></pre>
 </body>
 </html>
