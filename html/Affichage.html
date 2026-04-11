@@ -10,10 +10,39 @@
 </head>
 <body>
   <div class="container">
-    <h1>Afficher le nom</h1>
+    <div class="box">
+    <label for="nom">Prénom:</label>
+    <input type="text" id="nom" placeholder="Entrez prénom">
+    <button onclick="afficherNom()">Afficher le prénom</button> 
+    </div>
+     
+    <div class="box">    
     <label for="nom">Nom:</label>
-    <input type="text" id="nom" placeholder="Entrez votre nom">
+    <input type="text" id="nom" placeholder="Entrez nom">
     <button onclick="afficherNom()">Afficher le nom</button> 
+    </div>
   </div>
+
+  <div class="container">
+    <div class="box">
+    <label for="taille1">Taille de la matrice :</label>
+    <input type="text" id="taille1" placeholder="Entrez la taille">
+    </div>
+         
+    <div class="box"> 
+    <button onclick="afficherTaille()">La taille de la matrice est:</button>
+    <span id="resultat"></span>
+   </div>  
+  </div>
+    
+
+  <section class="cellule-sage">
+  <h2>Titre de la cellule</h2>
+  <p>
+    Ceci est une cellule de contenu simple, idéale pour afficher
+    une information, un message ou un résumé.
+  </p>
+  </section>
+
 </body>
 </html>
