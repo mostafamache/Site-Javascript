@@ -43,7 +43,7 @@ function afficherMatrice() {
             latexMatrice += valeur;
             if (j < n - 1) latexMatrice += " & ";
         }
-        if (i < n - 1) latexMatrice += " \\\\ ";
+        if (i < n - 1) latexMatrice += " \\\\";
     }
 
     latexMatrice += " \\end{pmatrix} \\]";
@@ -51,3 +51,47 @@ function afficherMatrice() {
     document.getElementById("matrice").innerHTML = latexMatrice;
     MathJax.typeset();
 }
+
+//calculer determinant avec Gauss
+function determinantGauss(matrix) {
+    const n = matrix.length;
+
+    // Copie de la matrice pour ne pas modifier l'originale
+    let A = matrix.map(row => row.slice());
+    let det = 1;
+
+    for (let i = 0; i < n; i++) {
+        // Recherche d'un pivot non nul
+        let pivot = i;
+        while (pivot < n && Math.abs(A[pivot][i]) < 1e-12) {
+            pivot++;
+        }
+
+        // Si tout le pivot est nul → déterminant = 0
+        if (pivot === n) {
+            return 0;
+        }
+
+        // Échange de lignes si nécessaire
+        if (pivot !== i) {
+            [A[i], A[pivot]] = [A[pivot], A[i]];
+            det *= -1; // changement de signe
+        }
+
+        let pivotValue = A[i][i];
+        det *= pivotValue;
+
+        // Élimination de Gauss
+        for (let j = i + 1; j < n; j++) {
+            let factor = A[j][i] / pivotValue;
+            for (let k = i; k < n; k++) {
+                A[j][k] -= factor * A[i][k];
+            }
+        }
+    }
+
+    return det;
+}
+
+
+

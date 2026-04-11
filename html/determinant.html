@@ -10,21 +10,26 @@
   <title>Déterminant</title>
 </head>
 <body>
-  <h2>Déterminant d’une matrice</h2>
+  <h1>Déterminant d’une matrice</h1>
   
    <label>
   Taille de la matrice :
-  <input type="number" id="taille2" value="2" min="1">
+  <input type="number" id="taille2" value="3" min="1" max="10">
+
+  <br><br>
 
   </label>
   <button onclick="creerChamps()">Créer la matrice</button>
-  <br><br>
-
   <div id="champsMatrice"></div>
-  <br>
-  <button onclick="afficherMatrice()">Afficher la matrice</button>
 
+
+  <br><br>
+  <button onclick="afficherMatrice()">Afficher la matrice</button>
   <div id="matrice"></div>
+
+  <br><br>
+  <button onclick="determinantGauss(matrice)">Afficher le déterminant</button>
+
 
 </body>
 </html>
