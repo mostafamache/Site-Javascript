@@ -52,27 +52,42 @@ function afficherMatrice() {
     MathJax.typeset();
 }
 
+//lire matrice
+function lireMatrice() {
+    const n = Number(document.getElementById("taille2").value);
+    let matrice = [];
+
+    for (let i = 0; i < n; i++) {
+        let ligne = [];
+        for (let j = 0; j < n; j++) {
+            ligne.push(Number(document.getElementById(`a_${i}_${j}`).value));
+        }
+        matrice.push(ligne);
+    }
+    return matrice;
+}
+
 //calculer determinant avec Gauss
-function determinantGauss(matrix) {
-    const n = matrix.length;
+function determinantGauss(matrice) {
+    const n = matrice.length;
 
     // Copie de la matrice pour ne pas modifier l'originale
-    let A = matrix.map(row => row.slice());
+    let A = matrice.map(row => row.slice());
     let det = 1;
 
     for (let i = 0; i < n; i++) {
-        // Recherche d'un pivot non nul
+    // Recherche d'un pivot non nul
         let pivot = i;
         while (pivot < n && Math.abs(A[pivot][i]) < 1e-12) {
             pivot++;
         }
 
-        // Si tout le pivot est nul → déterminant = 0
+    // Si tout le pivot est nul → déterminant = 0
         if (pivot === n) {
             return 0;
         }
 
-        // Échange de lignes si nécessaire
+    // Échange de lignes si nécessaire
         if (pivot !== i) {
             [A[i], A[pivot]] = [A[pivot], A[i]];
             det *= -1; // changement de signe
@@ -81,7 +96,7 @@ function determinantGauss(matrix) {
         let pivotValue = A[i][i];
         det *= pivotValue;
 
-        // Élimination de Gauss
+    // Élimination de Gauss
         for (let j = i + 1; j < n; j++) {
             let factor = A[j][i] / pivotValue;
             for (let k = i; k < n; k++) {
@@ -89,9 +104,17 @@ function determinantGauss(matrix) {
             }
         }
     }
-
     return det;
+    
 }
 
+
+
+//afficher determinant
+function afficherDeterminant() {
+    const A = lireMatrice();              
+    const d = determinantGauss(A);       
+    document.getElementById("determinant").textContent = "Le déterminant de la matrice A est: " + d;
+}
 
 
